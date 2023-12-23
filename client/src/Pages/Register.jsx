@@ -5,8 +5,10 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import logo from '../assets/logo2.svg';
 import "react-toastify/dist/ReactToastify.css";
+import { registerRoute } from "../utils/APIRoutes.js";
 
 function Register() {
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     username: "",
     email: "",
@@ -51,12 +53,28 @@ function Register() {
     return true;
   };
   
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if(handleValidation()){
-      
+      const { email, username, password } = values;
+      const { data } = await axios.post(registerRoute, {
+        username,
+        email,
+        password,
+      });
+      if (data.status === false) {
+        toast.error(data.msg, toastOptions);
+      }
+      if (data.status === true) {
+        localStorage.setItem(
+          "gadrial=hritik",
+          JSON.stringify(data.user)
+        );
+        navigate("/");
     }
   };
+}
+
   return (  
     <>
       <FormContainer>
