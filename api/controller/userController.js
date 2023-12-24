@@ -55,8 +55,8 @@ const setAvatar = async (req, res, next) => {
       isSet: userData.isAvatarImageSet,
       image: userData.avatarImage,
     });
-  } catch (ex) {
-    next(ex);
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -69,8 +69,8 @@ const getAllUsers = async (req, res, next) => {
       "_id",
     ]);
     return res.json(users);
-  } catch (ex) {
-    next(ex);
+  } catch (error) {
+    next(error);
   }
 };
 
