@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { allUsersRoute } from "../utils/APIRoutes.js";
 import Contacts from "../Components/Contacts.jsx";
+import Welcome from "../Components/Welcome.jsx";
 
 
 function Chat() {
@@ -15,14 +16,12 @@ function Chat() {
   useEffect(() => {
     const checkLocalStorage = async () => {
       const storedUser = localStorage.getItem("gadrial=hritik");
-
       if (!storedUser) {
         navigate("/login");
       } else {
         setCurrentUser(await JSON.parse(storedUser));
       }
     };
-
     checkLocalStorage();
   }, []);
 
@@ -44,21 +43,20 @@ function Chat() {
     };
 
     fetchData();
-  }, [currentUser, setContacts]);
+  }, [currentUser ]);
 
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
   };
 
-
-
   return (
     <>
-    <Container>
-      <div className="container">
-        <Contacts/>
-      </div>
-    </Container>
+      <Container>
+        <div className="container">
+          <Contacts contacts={contacts} changeChat={handleChatChange} />
+          <Welcome/>
+        </div>
+      </Container>
   </>
   );
 }

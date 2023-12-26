@@ -20,12 +20,12 @@ function Login() {
     draggable: true,
     theme: "dark",
   };
-  
-  useEffect(() => {
-    if (localStorage.getItem('gadrial=hritik')) {
-      navigate("/");
-    }
-  }, []);
+
+  // useEffect(() => {
+  //   if (localStorage.getItem('gadrial=hritik')) {
+  //     navigate("/");
+  //   }
+  // }, []);
 
   const handleChange = (event) => { setValues({ ...values, [event.target.name]: event.target.value });};
 
