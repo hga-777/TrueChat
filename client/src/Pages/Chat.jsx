@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { allUsersRoute } from "../utils/APIRoutes.js";
 import Contacts from "../Components/Contacts.jsx";
 import Welcome from "../Components/Welcome.jsx";
+import ChatContainer from "../Components/ChatContainer.jsx";
 
 
 function Chat() {
@@ -54,10 +55,14 @@ function Chat() {
       <Container>
         <div className="container">
           <Contacts contacts={contacts} changeChat={handleChatChange} />
-          <Welcome/>
+          {currentChat === undefined ? (
+            <Welcome />
+          ) : (
+            <ChatContainer currentChat={currentChat}  />
+          )}
         </div>
       </Container>
-  </>
+    </>
   );
 }
 
