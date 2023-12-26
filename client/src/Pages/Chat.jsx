@@ -6,9 +6,12 @@ import { allUsersRoute } from "../utils/APIRoutes.js";
 import Contacts from "../Components/Contacts.jsx";
 import Welcome from "../Components/Welcome.jsx";
 import ChatContainer from "../Components/ChatContainer.jsx";
+import { io } from "socket.io-client";
+import { host } from "../utils/APIRoutes.js";
 
 
 function Chat() {
+  const socket = useRef();
   const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
@@ -27,6 +30,13 @@ function Chat() {
   }, []);
 
   useEffect(() => {
+    if (currentUser) {
+      socket.current = io(host);
+      socket.current.emit("add-user", currentUser._id);
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
     const fetchData = async () => {
       if (currentUser) {
         if (currentUser.isAvatarImageSet) {
@@ -34,7 +44,6 @@ function Chat() {
             const response = await axios.get(`${allUsersRoute}/${currentUser._id}`);
             setContacts(response.data);
           } catch (error) {
-            // Handle error
             console.error('Error fetching data:', error);
           }
         } else {
@@ -42,7 +51,6 @@ function Chat() {
         }
       }
     };
-
     fetchData();
   }, [currentUser ]);
 
@@ -58,7 +66,7 @@ function Chat() {
           {currentChat === undefined ? (
             <Welcome />
           ) : (
-            <ChatContainer currentChat={currentChat}  currentUser = {currentUser}/>
+            <ChatContainer currentChat={currentChat}  currentUser = {currentUser} socket = {socket}/>
           )}
         </div>
       </Container>
